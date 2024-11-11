@@ -22,7 +22,7 @@ trigger OpportunityTrigger on Opportunity (before update, before delete) {
 
         else if (Trigger.isDelete){
             Set<Id> accIds = new Set<Id>();
-            for (Opportunity opp : Trigger.old){
+            for (Opportunity oApp : Trigger.old){
                 if(String.isNotBlank(opp.AccountId)){
                     accIds.add(opp.AccountId);
                 }
