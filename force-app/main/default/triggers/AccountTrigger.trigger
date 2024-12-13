@@ -4,21 +4,14 @@ trigger AccountTrigger on Account (before insert, after insert) {
             if(String.isBlank(acc.Type)){
                 acc.Type = 'Prospect';
             }    
-            if(String.isNotBlank(acc.ShippingStreet)){
-                acc.BillingStreet = acc.ShippingStreet;
-            }
-            if(String.isNotBlank(acc.ShippingCity)){
+            if(!String.isBlank(acc.ShippingStreet) && !String.isBlank(acc.ShippingCity) && !String.isBlank(acc.ShippingState) && !String.isBlank(acc.ShippingPostalCode) && !String.isBlank(acc.ShippingCountry)){
+                acc.BillingStreet = acc.ShippingStreet; 
                 acc.BillingCity = acc.ShippingCity;
-            }
-            if(String.isNotBlank(acc.ShippingState)){
                 acc.BillingState = acc.ShippingState;
-            }
-            if(String.isNotBlank(acc.ShippingCountry)){
+                acc.BillingPostalCode = acc.ShippingPostalCode;
                 acc.BillingCountry = acc.ShippingCountry;
             }
-            if(String.isNotBlank(acc.ShippingPostalCode)){
-                acc.BillingPostalCode = acc.ShippingPostalCode;    
-            }
+            
             if(String.isNotBlank(acc.Phone) && String.isNotBlank(acc.Fax) && String.isNotBlank(acc.Website)){
             acc.Rating = 'Hot';
             }
@@ -34,7 +27,7 @@ trigger AccountTrigger on Account (before insert, after insert) {
             newContact.AccountId = acc.Id;
             contactsToCreate.add(newContact);
         }
-        if (contactsToCreate.size() > 0) {
+        if (!contactsToCreate.isEmpty()) {
             insert contactsToCreate;
         }
     }
